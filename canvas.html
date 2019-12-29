@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Responsive Text on Canvas</title>	
+	<style type="text/css">
+		body { background-color: black; margin: 0; padding: 0; height: 100vh; display: flex; justify-content: center; align-content: center; align-items: center; }
+		canvas { background-color: white; }
+	</style>
+</head>
+<body>
+
+	<canvas id="image-editor" width="700" height="400"></canvas>
+	<button id="make"> Click me! </button>	
+
+	<script type="text/javascript">		
+		let canvas = document.getElementById("image-editor");
+		let ctx = canvas.getContext("2d");
+		
+		let button = document.getElementById("make");
+		button.addEventListener("click",function(e){
+		    ctx.font = "18px Helvetica";
+			ctx.fillStyle = "black";
+			ctx.textAlign = "center";
+			printAt( ctx, "Hello world, Hello world, Hello world, Hello world, Hello world, Hello world, Hello world, Hello world, Hello world, Hello world, Hello world, Hello world, Hello world, Hello world, Hello world, Hello world, Hello world, Hello world, Hello world, Hello world, Hello world, Hello world, Hello world, Hello world, Hello world", canvas.width / 2, canvas.height / 5, 50, 630 );
+		}, false);
+
+		function printAt(context , text, x, y, lineHeight, fitWidth)
+		{
+		    fitWidth = fitWidth || 0;
+		    
+		    if (fitWidth <= 0)
+		    {
+		        context.fillText( text, x, y );
+		        return;
+		    }
+		    
+		    for (let idx = 1; idx <= text.length; idx++)
+		    {
+		        let str = text.substr(0, idx);
+		        if (context.measureText(str).width > fitWidth)
+		        {
+		            context.fillText( text.substr(0, idx-1), x, y );
+		            printAt(context, text.substr(idx-1), x, y + lineHeight, lineHeight,  fitWidth);
+		            return;
+		        }
+		    }
+		    context.fillText( text, x, y );
+		}
+	</script>
+</body>
+</html>
